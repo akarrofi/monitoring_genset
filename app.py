@@ -17,14 +17,17 @@ def authenticate(username, password):
         users_sheet = client.open_by_key(SPREADSHEET_ID).worksheet('users')
         users_data = pd.DataFrame(users_sheet.get_all_records())
         if users_data.empty: return False
-        user_match = users_data[(users_data['username'] == username) & (users_data['password'] == password)]
+        
+        # Sesuaikan dengan header di sheet Anda: 'id' dan 'pass'
+        user_match = users_data[(users_data['id'] == username) & (users_data['pass'] == password)]
         return not user_match.empty
     except:
         return False
 
 def register(username, password):
     users_sheet = client.open_by_key(SPREADSHEET_ID).worksheet('users')
-    users_sheet.append_row([username, password])
+    # Sesuaikan urutan kolom: id, pass, name (kita isi name dengan 'user' default)
+    users_sheet.append_row([username, password, 'user'])
 
 # --- LOGIKA APLIKASI ---
 if 'logged_in' not in st.session_state:
