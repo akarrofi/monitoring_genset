@@ -4,6 +4,35 @@ from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import json
 
+# Fungsi untuk mengecek password
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == "Genset123": # Ganti password Anda di sini
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+        # Halaman Login
+        st.text_input("Masukkan Password", type="password", on_change=password_entered, key="password")
+        return False
+    elif not st.session_state["password_correct"]:
+        # Jika salah password
+        st.text_input("Password Salah. Coba lagi:", type="password", on_change=password_entered, key="password")
+        st.error("Password salah")
+        return False
+    else:
+        # Jika benar, lanjut ke aplikasi
+        return True
+
+# PANGGIL FUNGSI INI
+if not check_password():
+    st.stop() # Menghentikan jalannya aplikasi jika belum login
+
+# --- DI BAWAH INI ADALAH KODE MONITORING ANDA YANG TADI ---
+# ... kode koneksi Google Sheets dll ...
+
 # 1. Konfigurasi akses (Sudah benar)
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds_dict = json.loads(st.secrets["GOOGLE_SHEETS_CREDENTIALS"])
