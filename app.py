@@ -11,7 +11,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
 # 2. Buka Spreadsheet (Ganti 'Nama_File_Sheets_Anda' dengan nama sheet Anda)
-sheet = client.open('Nama_File_Sheets_Anda').sheet1
+sheet = client.open('DSE 7320 MKII').sheet2
 
 # 3. Ambil data
 data = sheet.get_all_records()
